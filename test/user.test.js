@@ -27,4 +27,43 @@ describe("Cadastro de usuário", () => {
                 throw err
             })
     })
+
+    test("Deve impedir que um usuário se cadastre com um e-mail repetido",() => {
+        const time = Date.now()
+        const email = `${time}@gmail.com`
+        const user = {name: "Marcelo", email: email, password: "12345678"}
+
+        return request.post("/user")
+            .send(user).then(res => {
+                expect(res.statusCode).toEqual(200)
+                expect(res.body.email).toEqual(email)
+                return request.post("/user")
+                    .send(user).then(res => {
+                        expect(res.statusCode).toEqual(400)
+                        console.log("Status code",res.statusCode)
+                        expect(res.body.error).toEqual("E-mail já cadastrado")
+                    }).catch(err => {
+                        throw err
+                    })
+            }).catch(err => {
+                throw err
+            })
+    })
+
+    // Outra maneira de testa a validação de e-mail usando async await
+    // test("Deve impedir que um usuário se cadastre com um e-mail repetido", async () => {
+    //     const time = Date.now()
+    //     const email = `${time}@gmail.com`
+    //     const user = { name: "Marcelo", email: email, password: "12345678" }
+    
+    //     // Cadastra o primeiro usuário
+    //     const res1 = await request.post("/user").send(user)
+    //     expect(res1.statusCode).toEqual(200)
+    //     expect(res1.body.email).toEqual(email)
+    
+    //     // Tenta cadastrar o mesmo e-mail novamente
+    //     const res2 = await request.post("/user").send(user)
+    //     expect(res2.statusCode).toEqual(400)
+    //     expect(res2.body.error).toEqual("E-mail já cadastrado")
+    // })
 })
