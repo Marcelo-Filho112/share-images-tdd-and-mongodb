@@ -40,7 +40,6 @@ describe("Cadastro de usuário", () => {
                 return request.post("/user")
                     .send(user).then(res => {
                         expect(res.statusCode).toEqual(400)
-                        console.log("Status code",res.statusCode)
                         expect(res.body.error).toEqual("E-mail já cadastrado")
                     }).catch(err => {
                         throw err

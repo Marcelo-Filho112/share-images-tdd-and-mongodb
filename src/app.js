@@ -2,6 +2,7 @@ const express = require("express")
 const app = express()
 const mongo = require("mongoose")
 const user = require("./models/User.model")
+const bcrypt = require("bcrypt")
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
@@ -26,8 +27,6 @@ app.post("/user", async (req, res) => {
             return
         }
     }
-
-    
     try{
         let user = await User.findOne({email: req.body.email})
         if(user != undefined){
@@ -35,7 +34,12 @@ app.post("/user", async (req, res) => {
             res.json({error: "E-mail já cadastrado"})
             return
         }
-        let newUser = new User({name: req.body.name, email: req.body.email, password: req.body.password})
+
+        let password = req.body.password
+        let salt = await bcrypt.genSalt(10)
+        let hash = await bcrypt.hash(password,salt)
+
+        let newUser = new User({name: req.body.name, email: req.body.email, password: hash})
         await newUser.save()
         res.json({email: req.body.email})
     }catch(err){
