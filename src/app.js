@@ -20,6 +20,12 @@ app.get("/",(req, res) => {
 })
 
 app.post("/user", async (req, res) => {
+    for(let key in req.body){
+        if(req.body[key] == "" || req.body[key] == undefined){
+            res.sendStatus(400)
+            return
+        }
+    }
     try{
         let newUser = new User({name: req.body.name, email: req.body.email, password: req.body.password})
         await newUser.save()

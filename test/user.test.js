@@ -16,4 +16,15 @@ describe("Cadastro de usuário", () => {
                 throw err
             })
     })
+
+    test("Deve impedir que um usuário se cadastre com os dados vazios", () => {
+        const user = {name: "", email: "", password: ""}
+
+        return request.post("/user")
+            .send(user).then(res => {
+                expect(res.statusCode).toEqual(400) //400 = Bad request
+            }).catch(err => {
+                throw err
+            })
+    })
 })
