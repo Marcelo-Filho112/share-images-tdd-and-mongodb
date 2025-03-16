@@ -3,6 +3,7 @@ const app = express()
 const mongo = require("mongoose")
 const user = require("./models/User.model")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken")
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
@@ -45,6 +46,11 @@ app.post("/user", async (req, res) => {
     }catch(err){
         res.sendStatus(500)
     }
+})
+
+app.delete("/user/:email", (req, res) => {
+    User.deleteOne({email: req.params.email})
+    res.sendStatus(200)
 })
 
 module.exports = app

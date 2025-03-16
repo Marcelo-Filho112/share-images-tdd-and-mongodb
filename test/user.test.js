@@ -2,6 +2,29 @@ const app = require("../src/app")
 const supertest = require("supertest")
 const request = supertest(app)
 
+const mainUser = {name: "Marcelo Manoel", email: "marcelolimafilho144@gmail.com", password: "12345678"}
+
+//Executa antes da suíte de teste
+beforeAll(() => {
+    request.post("/user")
+        .send(mainUser)
+        .then(res => {})
+        .catch(err => {console.log(err)})
+})
+
+//Executa no final da suíte de teste
+afterAll(() => {
+    request.delete(`/user/${mainUser.email}`)
+        .then(res => {})
+        .catch(err => {console.log(err)})
+})
+
+//Executa uma vez antes de cada teste
+// beforeEach()
+
+//Executa uma vez no final de cada teste
+// afterEach()
+
 describe("Cadastro de usuário", () => {
     test("Deve cadastrar um usuário com sucesso", () => {
         const time = Date.now()
@@ -65,4 +88,19 @@ describe("Cadastro de usuário", () => {
     //     expect(res2.statusCode).toEqual(400)
     //     expect(res2.body.error).toEqual("E-mail já cadastrado")
     // })
+})
+
+describe("Autenticação",() => {
+    test("Deve retornar um token quando logar",() => {
+        return request.post("/auth")
+        .send({email: mainUser.email, password: mainUser.password})
+        .then(res => {
+            expect(res.statusCode).toEqual(200)
+            expect(res.body.token).toBeDefined()
+        })
+        .catch(err => {
+            throw err
+        })
+    })
+
 })
