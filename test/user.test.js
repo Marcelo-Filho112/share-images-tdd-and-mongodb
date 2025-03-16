@@ -103,4 +103,28 @@ describe("Autenticação",() => {
         })
     })
 
+    test("Deve impedir que um usuário não cadastrado se logue",() => {
+        return request.post("/auth")
+        .send({email: "nãoexiste@email.com", password: "weakpassword"})
+        .then(res => {
+            expect(res.statusCode).toEqual(403)
+            expect(res.body.errors.email).toBe("E-mail não cadastrado")
+        })
+        .catch(err => {
+            throw err
+        })
+    })
+
+    test("Deve impedir que um usuário se logue com uma senha errada",() => {
+        return request.post("/auth")
+        .send({email: mainUser.email, password: "weakpassword"})
+        .then(res => {
+            expect(res.statusCode).toEqual(403)
+            expect(res.body.errors.password).toBe("Senha incorreta")
+        })
+        .catch(err => {
+            throw err
+        })
+    })
+
 })

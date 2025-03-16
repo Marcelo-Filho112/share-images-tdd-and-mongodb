@@ -56,7 +56,23 @@ app.delete("/user/:email", async (req, res) => {
 
 app.post("/auth", async (req, res) => {
     let {email, password} = req.body
-    jwt.sign({email: email},JWTSecret,{expiresIn:'48h'},(err, token) => {
+
+    let user = await User.findOne({email: email})
+
+    if(user == undefined){
+        res.statusCode = 403
+        res.json({errors: {email: "E-mail não cadastrado"}})
+        return
+    }
+
+    let isPasswordRigth = await bcrypt.compare(password, user.password)
+    if(!isPasswordRigth){
+        res.statusCode = 403
+        res.json({errors: {password: "Senha incorreta"}})
+        return
+    }
+
+    jwt.sign({email: email, name: user.name, id: user._id},JWTSecret,{expiresIn:'48h'},(err, token) => {
         if(err){
             res.sendStatus(500)
             console.log(err)
