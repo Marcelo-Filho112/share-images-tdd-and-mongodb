@@ -1,16 +1,5 @@
 name: Run suite tests
 
-on:
-  push:
-    branches:
-      - main
-      - 'v*'
-
-  pull_request:
-    branches:
-      - main
-      - 'v*'
-
 jobs:
   test:
     name: Run unit tests
