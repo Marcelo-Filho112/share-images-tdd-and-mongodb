@@ -1,16 +1,17 @@
-const app = require("../../src/app")
-const supertest = require("supertest")
-const request = supertest(app)
+import supertest from "supertest"
+import app from "../../src/app"
+import { test, expect, describe, beforeAll, afterAll, it } from "vitest"
 
+const request = supertest(app)
 const mainUser = {name: "Marcelo Manoel", email: "marcelolimafilho144@gmail.com", password: "12345678"}
 
 //Executa antes da suíte de teste
-beforeAll(() => {
-    request.post("/user")
-        .send(mainUser)
-        .then(res => {})
-        .catch(err => {console.log(err)})
-})
+beforeAll(async () => {
+    const res = await request.post("/user").send(mainUser)
+    if (res.statusCode !== 200) {
+      throw new Error(`Erro ao criar mainUser: ${res.statusCode}`)
+    }
+  })
 
 //Executa no final da suíte de teste
 afterAll(() => {
@@ -31,7 +32,7 @@ describe("Cadastro de usuário", () => {
         const email = `${time}@email.com`
         const user = { name: "User", email, password: "12345678" }
 
-        const res = await request(app).post("/user").send(user)
+        const res = await request.post("/user").send(user)   
 
         expect(res.statusCode).toBe(200)
         expect(res.body.email).toBe(email)
