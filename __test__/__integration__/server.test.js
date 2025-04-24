@@ -1,5 +1,5 @@
 const supertest = require("supertest")
-const app = require("../src/app")
+const app = require("../../src/app")
 const request = supertest(app)
 
 test("A aplicação deve responder na porta 3131", () => {
