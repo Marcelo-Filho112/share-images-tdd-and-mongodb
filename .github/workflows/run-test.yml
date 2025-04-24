@@ -24,7 +24,7 @@ jobs:
 
       - name: setup system
         run: |
-          cd /src
+          cd src
           node server
 
       - name: Run unit tests
