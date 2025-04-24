@@ -11,8 +11,6 @@ on:
       - master
       - 'v*'
 
-
-
 jobs:
   test:
     name: Run unit tests
