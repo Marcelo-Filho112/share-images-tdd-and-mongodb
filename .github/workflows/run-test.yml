@@ -5,13 +5,11 @@ on:
     branches:
       - main
       - 'v*'
-      - test/branch-protection
 
-  pull_request:
+  pull_requests:
     branches:
       - main
       - 'v*'
-      - test/branch-protection
 
 
 jobs:
