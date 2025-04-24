@@ -22,6 +22,11 @@ jobs:
       - name: Install dependencies
         run: npm i
 
+      - name: setup system
+        run: |
+          cd /src
+          node server
+
       - name: Run unit tests
         run: npm test
 
