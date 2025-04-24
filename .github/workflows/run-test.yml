@@ -3,13 +3,14 @@ name: Run suite tests
 on:
   push:
     branches:
-      - main
+      - master
       - 'v*'
 
-  pull_requests:
+  pull_request:
     branches:
-      - main
+      - master
       - 'v*'
+
 
 
 jobs:
