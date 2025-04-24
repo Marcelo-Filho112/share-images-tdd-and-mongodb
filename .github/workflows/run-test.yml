@@ -31,7 +31,7 @@ jobs:
 
     permissions:
       contents: read
-      pull_requests: write
+      pull-requests: write
     
     steps:
       - name: Checkout code
@@ -42,6 +42,9 @@ jobs:
 
       - name: Build code
         run: npm run build
+
+      - name: Run code coverage
+        run: npm run coverage
 
       - name: Report Coverage
         uses: davelosert/vitest-coverage-report-action@v2
