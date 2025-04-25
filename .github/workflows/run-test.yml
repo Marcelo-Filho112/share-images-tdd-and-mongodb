@@ -3,13 +3,13 @@ name: Run suite tests
 on:
   push:
     branches:
-      - main
-      - 'v*'
-  pull_request:
-    branches:
-      - main
+      - master
       - 'v*'
 
+  pull_request:
+    branches:
+      - master
+      - 'v*'
 
 jobs:
   test:
@@ -31,7 +31,7 @@ jobs:
 
     permissions:
       contents: read
-      pull_requests: write
+      pull-requests: write
     
     steps:
       - name: Checkout code
@@ -40,8 +40,8 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: Build code
-        run: npm run build
+      - name: Run code coverage
+        run: npm run coverage
 
       - name: Report Coverage
         uses: davelosert/vitest-coverage-report-action@v2

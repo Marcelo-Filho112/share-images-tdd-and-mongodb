@@ -5,8 +5,10 @@ export default defineConfig({
         environment:'node',
         globals: true,
         coverage: {
-            reporter: ['text', 'html'],
-            exclude: ['node_modules/', '__test__/']
+            provider:'v8',
+            reporter: ['text', 'json', 'html', 'json-summary'],
+            exclude: ['node_modules/', '__test__/'],
+            reportOnFailure: true
         }
     }
 })

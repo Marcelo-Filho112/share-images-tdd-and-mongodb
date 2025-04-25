@@ -1,5 +1,5 @@
 const app = require("./app")
 
 app.listen(3131,() => {
-    console.log("Server Run!")
+    console.log("Server Must Run!")
 })
