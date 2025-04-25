@@ -5,7 +5,8 @@ export default defineConfig({
         environment:'node',
         globals: true,
         coverage: {
-            reporter: ['text', 'json-summary', 'json'],
+            provider:'v8',
+            reporter: ['text', 'json', 'html'],
             exclude: ['node_modules/', '__test__/'],
             reportOnFailure: true
         }
